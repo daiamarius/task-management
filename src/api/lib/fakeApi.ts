@@ -1,4 +1,4 @@
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
 import {fakeDelay, range, useObservable} from "@/lib/utils.ts";
 
 export type FakeApiData = {
@@ -37,6 +37,7 @@ export type FakeApiConstructor<TData extends FakeApiData> = {
   generatorFunction: (index?: number) => TData;
   delayTimer?: number;
   dataSize?: number;
+  localStorageKey: string;
 };
 
 export type Id = string;
@@ -57,20 +58,47 @@ export interface IFakeApi<TData extends Record<string, unknown>> {
   update: (id: Id, body: Omit<TData, 'id'>) => Promise<FakeApiResponse>;
   add: (body: Omit<TData, 'id'>) => Promise<FakeApiResponse>;
   getData: () => TData[];
+  getInitialData: () => TData[];
   useGetData: () => TData[];
+  cleanup: () => void;
 }
 
 export class FakeApi<TData extends FakeApiData> implements IFakeApi<TData> {
+
+  private readonly initialData: TData[];
   private readonly data$: BehaviorSubject<TData[]>;
   private readonly generatorFunction: (index?: number) => TData;
   private readonly delayTimer: number;
-  private dataSize: number;
+  private readonly dataSize: number;
+  private readonly localStorageKey: string;
 
-  constructor({generatorFunction, delayTimer = 150, dataSize = 100}: FakeApiConstructor<TData>) {
+  private unsubscribeAll$: Subject<void>;
+
+  private computeInitialData(): TData[] {
+    const localStorageData = localStorage.getItem(this.localStorageKey)
+    if (localStorageData) {
+      return JSON.parse(localStorageData) as TData[];
+    }
+    return range(this.dataSize).map((x) => this.generatorFunction(x))
+  }
+
+  constructor({generatorFunction, delayTimer = 100, dataSize = 100, localStorageKey}: FakeApiConstructor<TData>) {
     this.generatorFunction = generatorFunction;
     this.delayTimer = delayTimer;
     this.dataSize = dataSize;
-    this.data$ = new BehaviorSubject<TData[]>(range(this.dataSize).map((x) => this.generatorFunction(x)));
+    this.localStorageKey = localStorageKey;
+    this.initialData = this.computeInitialData();
+    this.data$ = new BehaviorSubject<TData[]>(this.initialData);
+    this.unsubscribeAll$ = new Subject<void>();
+    this.data$
+      .pipe(takeUntil(this.unsubscribeAll$))
+      .subscribe((d) => {
+        localStorage.setItem(this.localStorageKey, JSON.stringify(d))
+      })
+  }
+
+  public getInitialData() {
+    return this.initialData;
   }
 
   public getData() {
@@ -81,7 +109,6 @@ export class FakeApi<TData extends FakeApiData> implements IFakeApi<TData> {
     return this.getData()?.find((x) => x.id === id);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public filter = async (pagination: FakeApiPagination, filters: FakeApiFilter): Promise<PagedData<TData>> => {
     await fakeDelay(this.delayTimer);
     console.log(filters);
@@ -182,4 +209,9 @@ export class FakeApi<TData extends FakeApiData> implements IFakeApi<TData> {
     }
     return data;
   };
+
+  public cleanup() {
+    this.unsubscribeAll$.next();
+    this.unsubscribeAll$.complete();
+  }
 }

@@ -25,4 +25,5 @@ const generateNewUser = (): User => {
 export const FakeUserApi = new FakeApi<User>({
   generatorFunction: generateNewUser,
   dataSize: 10,
+  localStorageKey: 'users'
 });

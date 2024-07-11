@@ -21,7 +21,6 @@ export const StatusTrack: React.FC<Props> = ({status}) => {
   })
 
   useEffect(() => {
-    console.log(isFetching)
     if(isFetching){
       clearLoading();
     }

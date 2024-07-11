@@ -1,5 +1,4 @@
 import React, {useMemo} from 'react';
-import {Bar, BarChart, CartesianGrid, XAxis} from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -13,6 +12,7 @@ import {useGetTasksQuery} from "@/api/hooks/task/query/useGetTasksQuery.tsx";
 import {Task} from "@/api/fakeTasksApi.ts";
 import {ChartColors} from "@/routes/home/components/ChartColors.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
+import {Bar, BarChart, CartesianGrid, XAxis} from "recharts";
 
 
 function groupTasksByMonth(tasks: Task[]) {

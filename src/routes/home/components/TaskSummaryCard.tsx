@@ -38,7 +38,7 @@ export const TaskSummaryCard: React.FC<Props> = ({status}) => {
           {capitalizeFirstLetter(status)}
         </CardTitle>
         <CardDescription>
-          <div className={'text-muted-foreground text-sm'}>Total tasks {status.toLowerCase()}.</div>
+          <span className={'text-muted-foreground text-sm'}>Total tasks {status.toLowerCase()}.</span>
         </CardDescription>
       </CardHeader>
       <CardContent>

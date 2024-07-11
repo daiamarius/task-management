@@ -28,26 +28,26 @@ const generate = (index?:number): Task => {
     switch (status) {
       case 'TESTING':
         return faker.helpers.arrayElement(
-          FakeUserApi.getData()
+          FakeUserApi.getInitialData()
             .filter((x) => ['TESTER'].includes(x.position))
             .map((x) => x.id)
         );
       case 'DONE':
         return faker.helpers.arrayElement(
-          FakeUserApi.getData()
+          FakeUserApi.getInitialData()
             .filter((x) => ['CLIENT', 'PRODUCT OWNER'].includes(x.position))
             .map((x) => x.id)
         );
       case 'IN PROGRESS':
         return faker.helpers.arrayElement(
-          FakeUserApi.getData()
+          FakeUserApi.getInitialData()
             .filter((x) => ['DEVELOPER'].includes(x.position))
             .map((x) => x.id)
         );
       case 'TODO':
         if (Math.random() < 0.3) {
           return faker.helpers.arrayElement(
-            FakeUserApi.getData()
+            FakeUserApi.getInitialData()
               .filter((x) => ['DEVELOPER'].includes(x.position))
               .map((x) => x.id)
           );
@@ -80,4 +80,5 @@ const generate = (index?:number): Task => {
 export const FakeTasksApi = new FakeApi<Task>({
   generatorFunction: generate,
   dataSize: 50,
+  localStorageKey: 'tasks'
 });
