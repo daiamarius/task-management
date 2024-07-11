@@ -30,3 +30,12 @@ export function capitalizeFirstLetter(input: string): string {
 
   return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
+
+
+export function parseDate(dateString: string): string {
+  if(!dateString){
+    return ''
+  }
+
+  return dateString.split('T')[0]
+}

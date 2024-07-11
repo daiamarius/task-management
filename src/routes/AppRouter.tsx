@@ -6,6 +6,7 @@ import {AuthenticationContextProvider} from "@/auth/AuthenticationContext.tsx";
 import {Home} from "@/routes/home/Home.tsx";
 import {AuthenticatedRouteGuard, NotAuthenticatedRouteGuard} from "@/auth/AuthenticationRouteGuard.tsx";
 import {TaskDetails} from "@/routes/task/TaskDetails.tsx";
+import {TaskLoadingContextProvider} from "@/routes/board/task/components/TaskLoadingContext.tsx";
 
 
 export const AppRoutes: RouteObject[] = [
@@ -24,7 +25,10 @@ export const AppRoutes: RouteObject[] = [
       },
       {
         path: '',
-        element: <AuthenticatedRouteGuard/>,
+        element:
+        <TaskLoadingContextProvider>
+          <AuthenticatedRouteGuard/>
+        </TaskLoadingContextProvider>,
         children: [
           {
             index: true,

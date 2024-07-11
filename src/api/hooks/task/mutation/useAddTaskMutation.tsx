@@ -30,13 +30,14 @@ export const useAddTaskMutation = (callback?: MutationCallback) => {
 
   const {user} = useContext(AuthenticationContext);
 
-  const mutation = useMutation<FakeApiResponse, FakeApiResponse, Omit<Task, 'id' | 'index' | 'creator' | 'createdAt' | 'status'>>({
+  const mutation = useMutation<FakeApiResponse, FakeApiResponse, Omit<Task, 'id' | 'index' | 'creator' | 'createdAt' | 'status' | 'updatedAt'>>({
     mutationFn: (newTask) => {
       return FakeTasksApi.add({
           ...newTask,
           creator: user?.id ?? '',
           status: 'TODO',
-          createdAt: new Date().toISOString().split('T')[0],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           index: findNextIndex() + 1
         },
       )

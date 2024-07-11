@@ -14,6 +14,6 @@ export const useGetTasksQuery = ({select} : TaskQueryOptions) => {
       return FakeTasksApi.getAll()
     },
     select,
-    staleTime: 1000
+    staleTime: 1000,
   })
 }

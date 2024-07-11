@@ -18,6 +18,7 @@ export type Task = {
   asignee?: Id;
   status: Status;
   createdAt: string;
+  updatedAt: string;
 };
 
 const generate = (index?:number): Task => {
@@ -56,12 +57,16 @@ const generate = (index?:number): Task => {
         return undefined;
     }
   };
+
+  const createdAt = faker.date.past({years: 0.5}).toISOString();
+
   return {
     id: faker.string.uuid(),
     index: index ?? 0,
     title: `${faker.helpers.arrayElement(TaskNameStart)} ${faker.lorem.words({ min: 3, max: 6 })}`,
     description: faker.lorem.paragraph({ min: 1, max: 4 }),
-    createdAt: faker.date.past({years: 0.5}).toISOString().split('T')[0],
+    createdAt,
+    updatedAt: createdAt,
     creator: faker.helpers.arrayElement(
       FakeUserApi.getData()
         .filter((x) => ['PRODUCT OWNER', 'CLIENT'].includes(x.position))
@@ -75,5 +80,4 @@ const generate = (index?:number): Task => {
 export const FakeTasksApi = new FakeApi<Task>({
   generatorFunction: generate,
   dataSize: 50,
-  delayTimer: 1000
 });

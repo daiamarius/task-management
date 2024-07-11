@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Status} from "@/api/fakeTasksApi.ts";
 import {TaskCard} from "@/routes/board/task/TaskCard.tsx";
 import {useGetTasksQuery} from "@/api/hooks/task/query/useGetTasksQuery.tsx";
 import {StatusIcon} from "@/components/shared/StatusIcon.tsx";
 import {capitalizeFirstLetter, range} from "@/lib/utils.ts";
 import {TaskCardSkeleton} from "@/routes/task/TaskCardSkeleton.tsx";
+import {TaskLoadingContext} from "@/routes/board/task/components/TaskLoadingContext.tsx";
 
 type Props = {
   status: Status;
@@ -12,9 +13,21 @@ type Props = {
 
 export const StatusTrack: React.FC<Props> = ({status}) => {
 
-  const {data: tasks, isLoading} = useGetTasksQuery({
-    select: data => data.filter(x => x.status === status)
+  const { clearLoading } = useContext(TaskLoadingContext);
+  const {data: tasks, isLoading, isFetching} = useGetTasksQuery({
+    select: data => data
+        .filter(x => x.status === status)
+        .sort((a,b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
   })
+
+  useEffect(() => {
+    console.log(isFetching)
+    if(isFetching){
+      clearLoading();
+    }
+  }, [isFetching])
+
+
 
   return (
     <div className={'flex flex-col gap-4'}>
