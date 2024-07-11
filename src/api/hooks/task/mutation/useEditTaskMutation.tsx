@@ -11,13 +11,12 @@ type MutationCallback = {
   onSuccess?: () => void
 }
 
-
 export const useEditTaskMutation = (task: Task, callback?: MutationCallback) => {
   const queryClient = useQueryClient()
 
   const {setLoading} = useContext(TaskLoadingContext)
 
-  const mutation = useMutation<FakeApiResponse, FakeApiResponse, Omit<Task, 'id' | 'creator' | 'createdAt' | 'index' | 'updatedAt'>>({
+  return useMutation<FakeApiResponse, FakeApiResponse, Omit<Task, 'id' | 'creator' | 'createdAt' | 'index' | 'updatedAt'>>({
     mutationFn: (edited) => {
       setLoading(task.id);
 
@@ -27,17 +26,17 @@ export const useEditTaskMutation = (task: Task, callback?: MutationCallback) => 
         updatedAt: new Date().toISOString(),
       })
     },
-    onSuccess: (r) => {
+    onSuccess: (_, edited) => {
 
       toast({
-        title: 'Success',
-        description: r.message
+        title: 'Task edited successfully.',
+        description: 'The task has been edited successfully.',
+        duration: 1500
       })
-      queryClient.invalidateQueries({queryKey: QueryKeys.task.getAll()})
+      queryClient.invalidateQueries({queryKey: QueryKeys.task.getByStatus(task.status)})
+      queryClient.invalidateQueries({queryKey: QueryKeys.task.getByStatus(edited.status)})
       queryClient.invalidateQueries({queryKey: QueryKeys.task.getById(task.id)})
       callback?.onSuccess && callback.onSuccess();
     }
   })
-
-  return mutation
 }

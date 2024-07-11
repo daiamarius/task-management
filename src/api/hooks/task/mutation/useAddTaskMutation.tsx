@@ -30,7 +30,7 @@ export const useAddTaskMutation = (callback?: MutationCallback) => {
 
   const {user} = useContext(AuthenticationContext);
 
-  const mutation = useMutation<FakeApiResponse, FakeApiResponse, Omit<Task, 'id' | 'index' | 'creator' | 'createdAt' | 'status' | 'updatedAt'>>({
+  return useMutation<FakeApiResponse, FakeApiResponse, Omit<Task, 'id' | 'index' | 'creator' | 'createdAt' | 'status' | 'updatedAt'>>({
     mutationFn: (newTask) => {
       return FakeTasksApi.add({
           ...newTask,
@@ -42,15 +42,15 @@ export const useAddTaskMutation = (callback?: MutationCallback) => {
         },
       )
     },
-    onSuccess: (r) => {
+    onSuccess: () => {
       toast({
-        title: 'Success',
-        description: r.message
+        title: 'Task created successfully.',
+        description: 'The new task has been added successfully.',
+        duration: 1500
       })
       queryClient.invalidateQueries({queryKey: QueryKeys.task.getAll()})
+      queryClient.invalidateQueries({queryKey: QueryKeys.task.getByStatus('TODO')})
       callback?.onSuccess && callback?.onSuccess();
     }
   })
-
-  return mutation
 }

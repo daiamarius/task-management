@@ -12,7 +12,7 @@ export const useChangeTaskAsigneeMutation = (task: Task) => {
 
   const {setLoading} = useContext(TaskLoadingContext)
 
-  const mutation = useMutation<FakeApiResponse, FakeApiResponse, Id>({
+  return useMutation<FakeApiResponse, FakeApiResponse, Id>({
     mutationFn: (id) => {
       setLoading(task.id);
       return FakeTasksApi.update(task.id, {
@@ -21,15 +21,13 @@ export const useChangeTaskAsigneeMutation = (task: Task) => {
         updatedAt: new Date().toISOString()
       })
     },
-    onSuccess: (r) => {
-
+    onSuccess: () => {
       toast({
-        title: 'Success',
-        description: r.message
+        title: 'Task reassigned successfully.',
+        description: 'The task has been reassigned successfully.',
+        duration: 1500
       })
-      queryClient.invalidateQueries({queryKey: QueryKeys.task.getAll()})
+      queryClient.invalidateQueries({queryKey: QueryKeys.task.getById(task.id)})
     }
   })
-
-  return mutation
 }

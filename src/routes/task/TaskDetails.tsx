@@ -1,20 +1,14 @@
-import React from 'react';
 import {useParams} from "react-router-dom";
-import {useGetTaskQuery} from "@/api/hooks/task/query/useGetTaskQuery.tsx";
 import {TaskCard} from "@/routes/board/task/TaskCard.tsx";
 import {TaskCardSkeleton} from "@/routes/task/TaskCardSkeleton.tsx";
 
-export const TaskDetails: React.FC = () => {
-
+export const TaskDetails = () => {
   const {taskId} = useParams();
 
-  const {data: task} = useGetTaskQuery(taskId)
-
-  if (!task) {
+  if (!taskId) {
     return <TaskCardSkeleton/>
   }
-
   return (
-    <TaskCard task={task}/>
+    <TaskCard taskId={taskId}/>
   );
 };

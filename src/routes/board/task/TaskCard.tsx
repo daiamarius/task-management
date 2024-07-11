@@ -1,5 +1,4 @@
-import React, {useContext} from 'react';
-import {Task} from "@/api/fakeTasksApi.ts";
+import React from 'react';
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {NavLink} from "react-router-dom";
 import {LuCalendar} from "react-icons/lu";
@@ -7,20 +6,22 @@ import {CreatorLabel} from "@/routes/board/task/components/CreatorLabel.tsx";
 import {TaskCardActions} from "@/routes/board/task/components/TaskCardActions.tsx";
 import {parseDate} from "@/lib/utils.ts";
 import {Progress} from "@/components/ui/progress.tsx";
-import {TaskLoadingContext} from "@/routes/board/task/components/TaskLoadingContext.tsx";
+import {Id} from "@/api/lib/fakeApi.ts";
+import {useGetTaskQuery} from "@/api/hooks/task/query/useGetTaskQuery.tsx";
+import {TaskCardSkeleton} from "@/routes/task/TaskCardSkeleton.tsx";
 
 type Props = {
-  task: Task;
+  taskId: Id;
 }
-export const TaskCard: React.FC<Props> = ({task}) => {
+export const TaskCard: React.FC<Props> = ({taskId}) => {
+  const {data: task, isLoading, isFetching} = useGetTaskQuery(taskId)
 
-  const {loadingTasksId} = useContext(TaskLoadingContext)
-
-  const isLoading = loadingTasksId?.includes(task.id);
+  if (isLoading || !task) {
+    return <TaskCardSkeleton/>
+  }
 
   return (
     <Card className={'flex flex-col justify-between relative'}>
-      {isLoading && <Progress indeterminate={true} className={'h-1 absolute rounded-t-none bottom-0'}/>}
       <CardHeader>
         <CardTitle className={'text-sm flex flex-col gap-1'}>
           <NavLink to={`/task/${task.id}`} className={'text-primary hover:underline transition line-clamp-2 h-[42px]'}>
@@ -55,6 +56,7 @@ export const TaskCard: React.FC<Props> = ({task}) => {
       <CardFooter>
         <TaskCardActions task={task}/>
       </CardFooter>
+      {isFetching && <Progress indeterminate={true} className={'h-1 absolute rounded-t-none bottom-0'}/>}
     </Card>
   );
 };
