@@ -30,13 +30,9 @@ export const EditTaskAction: React.FC<Props> = ({task}) => {
 
   const FormSchema = z.object({
     title: z
-      .string({
-        required_error: "Please complete the title.",
-      }),
+      .string().min(1, {message: "Please complete the title."}),
     description: z
-      .string({
-        required_error: "Please complete the description.",
-      }),
+      .string().min(1, {message: "Please complete the description."}),
     asignee: z
       .string().optional(),
     status: z
@@ -46,7 +42,7 @@ export const EditTaskAction: React.FC<Props> = ({task}) => {
           required_error: "Please select a status.",
         }
       ),
-  })
+  });
 
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -56,7 +52,7 @@ export const EditTaskAction: React.FC<Props> = ({task}) => {
   useEffect(() => {
     form.setValue('title', task.title);
     form.setValue('description', task.description);
-    form.setValue('asignee', task.asignee);
+    form.setValue('asignee', task?.asignee);
     form.setValue('status', task.status);
   }, [task, form])
 

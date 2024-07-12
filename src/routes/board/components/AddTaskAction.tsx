@@ -25,13 +25,9 @@ export const AddTaskAction = () => {
 
   const FormSchema = z.object({
     title: z
-      .string({
-        required_error: "Please complete the title.",
-      }),
+      .string().min(1, {message: "Please complete the title."}),
     description: z
-      .string({
-        required_error: "Please complete the description.",
-      }),
+      .string().min(1, {message: "Please complete the description."}),
     asignee: z
       .string().optional(),
   })
@@ -39,9 +35,6 @@ export const AddTaskAction = () => {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-
-    }
   })
 
   const {mutate} = useAddTaskMutation({
