@@ -18,6 +18,10 @@ export default defineConfig({
     port: 4000,
     open: 'http://localhost:4000'
   },
+  preview: {
+    port: 4001,
+    open: 'http://localhost:4001'
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

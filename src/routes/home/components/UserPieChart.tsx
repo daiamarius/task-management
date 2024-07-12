@@ -4,10 +4,10 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} 
 import {ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent,} from "@/components/ui/chart"
 import {ChartColors} from "@/routes/home/components/ChartColors.tsx";
 import {useGetUsersQuery} from "@/api/hooks/user/query/useGetUsersQuery.tsx";
-import {Position, Positions, User} from "@/api/fakeUsersApi.ts";
 import {UserLabel} from "@/components/shared/UserLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {PieSectorDataItem} from "recharts/types/polar/Pie";
+import {Position, Positions, User} from "@/api/fakeTasksApi.ts";
 
 
 const chartConfig = {

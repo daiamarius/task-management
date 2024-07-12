@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {User} from "@/api/fakeUsersApi.ts";
 import {twMerge} from "tailwind-merge";
+import {User} from "@/api/fakeTasksApi.ts";
 
 type Props = {
   user: User;

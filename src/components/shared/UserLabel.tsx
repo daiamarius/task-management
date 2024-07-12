@@ -1,7 +1,7 @@
 import React from 'react';
-import {User} from "@/api/fakeUsersApi.ts";
 import {PositionBadge} from "@/components/shared/PositionBadge.tsx";
 import {UserAvatar} from "@/components/shared/UserAvatar.tsx";
+import {User} from "@/api/fakeTasksApi.ts";
 
 type Props = {
   user: User;

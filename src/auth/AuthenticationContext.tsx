@@ -1,7 +1,7 @@
 import React, {createContext, PropsWithChildren, useState} from "react";
-import {User} from "@/api/fakeUsersApi.ts";
 import {Id} from "@/api/lib/fakeApi.ts";
 import {useGetUserQuery} from "@/api/hooks/user/query/useGetUserQuery.tsx";
+import {User} from "@/api/fakeTasksApi.ts";
 
 type AuthenticationContextType = {
   isAuthenticated: boolean;

@@ -1,7 +1,7 @@
 import {FakeApiResponse} from "@/api/lib/fakeApi.ts";
 import {useQuery} from "@tanstack/react-query";
-import {FakeUserApi, User} from "@/api/fakeUsersApi.ts";
 import {QueryKeys} from "@/api/hooks/QueryKeys.tsx";
+import {FakeUserApi, User} from "@/api/fakeTasksApi.ts";
 
 type UserQueryOptions = {
   select?: (data: User[]) => User[];
