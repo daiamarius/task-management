@@ -39,3 +39,7 @@ export function parseDate(dateString: string): string {
 
   return dateString.split('T')[0]
 }
+
+export const hideSplashScreen = () => {
+  document.body.classList.add('splash-screen-hidden');
+};
