@@ -17,16 +17,29 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
 
 
 export const AuthenticationContextProvider: React.FC<PropsWithChildren> = ({children}) => {
-  const [userId, setUserId] = useState<Id | undefined>(undefined)
+  const localStorageKey = 'user';
+  const [userId, setUserId] = useState<Id | undefined>(localStorage.getItem(localStorageKey) ?? undefined)
 
-  const { data: user } = useGetUserQuery(userId)
+  const {data: user} = useGetUserQuery(userId)
+
+  const login = (userId: string) => {
+    setUserId(userId);
+    localStorage.setItem(localStorageKey, userId);
+  }
+
+  const logout = () => {
+    setUserId(undefined)
+    localStorage.removeItem(localStorageKey);
+  }
+
+
 
   return (
     <AuthenticationContext.Provider value={{
       isAuthenticated: !!user,
       user: userId ? user : undefined,
-      login: (userId) => setUserId(userId),
-      logout: () => setUserId(undefined)
+      login,
+      logout
     }}>
       {children}
     </AuthenticationContext.Provider>

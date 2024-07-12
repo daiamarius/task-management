@@ -1,5 +1,5 @@
 import React, {PropsWithChildren, useContext} from 'react';
-import {LuKanbanSquareDashed, LuLogOut} from "react-icons/lu";
+import {LuKanbanSquare, LuKanbanSquareDashed, LuLogOut} from "react-icons/lu";
 import {NavLink} from "react-router-dom";
 import {TbLayoutDashboard} from "react-icons/tb";
 import {twMerge} from "tailwind-merge";
@@ -11,14 +11,14 @@ import {AuthenticationContext} from "@/auth/AuthenticationContext.tsx";
 const Logo = () => {
   return <NavLink to={'/'}>
     <div className={'text-xl flex items-center flex-row gap-2 font-bold'}>
-      <LuKanbanSquareDashed className={'text-4xl'}/>
+      <LuKanbanSquare className={'text-4xl'}/>
       <h4>Task Management</h4>
     </div>
   </NavLink>
 }
 
 export const Toolbar: React.FC = () => {
-  const { isAuthenticated} =useContext(AuthenticationContext);
+  const {isAuthenticated} = useContext(AuthenticationContext);
 
   return (
     <div className={'w-full border-b px-2 sm:px-4 md:px-8 lg:px-16 xl:px-20 py-4 bg-white flex '}>
@@ -64,9 +64,9 @@ const NavigationItem: React.FC<NavigationItemProps> = ({to, children}) => {
 
 
 const CurrentUser = () => {
-  const { user, logout} =useContext(AuthenticationContext);
+  const {user, logout} = useContext(AuthenticationContext);
 
-  if(!user){
+  if (!user) {
     return <></>
   }
 
@@ -75,7 +75,7 @@ const CurrentUser = () => {
       <UserLabel user={user} showPosition={true}/>
       <Button size={'sm'} variant={'outline'} onClick={() => logout()}>
         Logout
-        <LuLogOut className={'ml-2'} />
+        <LuLogOut className={'ml-2'}/>
       </Button>
     </div>
   )
