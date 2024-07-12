@@ -1,9 +1,8 @@
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker/locale/en';
 import {FakeApi, Id} from "@/api/lib/fakeApi.ts";
 
 export type Position = 'CLIENT' | 'DEVELOPER' | 'TESTER' | 'PRODUCT OWNER';
 export const Positions: readonly Position[] = ['CLIENT', 'DEVELOPER', 'TESTER', 'PRODUCT OWNER'] as const;
-
 
 
 export type User = {

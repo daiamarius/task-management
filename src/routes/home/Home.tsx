@@ -11,7 +11,7 @@ export const Home = () => {
         {Statuses.map(x => <TaskSummaryCard key={x} status={x}/>)}
       </div>
 
-    <div className={'grid grid-cols-1 xl:grid-cols-3 gap-4'}>
+    <div className={'grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch'}>
       <TaskBarChart/>
       <UserPieChart/>
     </div>

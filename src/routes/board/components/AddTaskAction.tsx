@@ -39,12 +39,18 @@ export const AddTaskAction = () => {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+
+    }
   })
 
   const {mutate} = useAddTaskMutation({
     onSuccess: () => {
       setOpen(false);
       form.reset()
+      form.setValue('asignee','')
+      form.setValue('title','')
+      form.setValue('description','')
     }
   })
 

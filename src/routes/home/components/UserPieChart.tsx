@@ -1,6 +1,6 @@
 import {useMemo, useState} from "react"
 import {Label, Pie, PieChart, Sector} from "recharts"
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
 import {ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent,} from "@/components/ui/chart"
 import {ChartColors} from "@/routes/home/components/ChartColors.tsx";
 import {useGetUsersQuery} from "@/api/hooks/user/query/useGetUsersQuery.tsx";
@@ -112,10 +112,10 @@ export const UserPieChart = () => {
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] -mt-10"
+          className="mx-auto aspect-square max-h-[250px] mb-4"
         >
           <PieChart>
             <ChartTooltip
@@ -176,15 +176,12 @@ export const UserPieChart = () => {
           </PieChart>
         </ChartContainer>
 
-
-      </CardContent>
-      <CardFooter>
         <div className={'flex flex-col divide-y w-full'}>
           {users?.map(x => <div key={x.id} className={'p-1.5'}>
             <UserLabel user={x} showPosition={true}/>
           </div>)}
         </div>
-      </CardFooter>
+      </CardContent>
     </Card>
   )
 }

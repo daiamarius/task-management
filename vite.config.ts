@@ -4,6 +4,7 @@ import path from "path"
 import checker from 'vite-plugin-checker';
 import eslint from '@nabla/vite-plugin-eslint';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
+import { compression } from 'vite-plugin-compression2'
 
 export default defineConfig({
   plugins: [
@@ -13,6 +14,7 @@ export default defineConfig({
     checker({
       typescript: true,
     }),
+    compression()
   ],
   server: {
     port: 4000,

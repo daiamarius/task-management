@@ -16,6 +16,10 @@ export const TaskSummaryCard: React.FC<Props> = ({status}) => {
     select: (tasks) => tasks.filter(x => x.status === status)
   })
 
+  useEffect(() => {
+    console.log(tasks?.length)
+  }, [tasks]);
+
   if (isLoading || !tasks) {
     return <Card>
       <CardHeader>
@@ -42,7 +46,7 @@ export const TaskSummaryCard: React.FC<Props> = ({status}) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Counter value={tasks.length}/>
+        <Counter value={tasks?.length || 0}/>
       </CardContent>
     </Card>
   );
@@ -55,7 +59,7 @@ export default function Counter({
   value: number;
   direction?: "up" | "down";
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const motionValue = useMotionValue(direction === "down" ? value : 0);
   const springValue = useSpring(motionValue, {
     damping: 100,
@@ -81,5 +85,5 @@ export default function Counter({
     [springValue]
   );
 
-  return <span className={'text-7xl font-bold tracking-wide'} ref={ref}/>;
+  return <div className={'text-7xl font-bold tracking-wide shrink-0'} ref={ref}/>;
 }
