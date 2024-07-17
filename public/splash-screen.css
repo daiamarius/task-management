@@ -8,13 +8,12 @@ body .splash-screen {
     left: 0;
     right: 0;
     bottom: 0;
-    color: #F9FAFB;
+    color: #f9fafb;
     z-index: 999999;
     opacity: 1;
     visibility: visible;
     background-image: linear-gradient(to top right, #09090b, #19191b, #09090b);
 }
-
 
 body:not(.splash-screen-hidden) {
     overflow: hidden;
@@ -26,7 +25,6 @@ body.splash-screen-hidden .splash-screen {
     transition-property: all;
     transition-duration: 0.4s;
 }
-
 
 .lds-ellipsis,
 .lds-ellipsis div {
@@ -87,4 +85,3 @@ body.splash-screen-hidden .splash-screen {
         transform: translate(24px, 0);
     }
 }
-
