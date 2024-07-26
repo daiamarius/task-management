@@ -1,8 +1,10 @@
 import * as React from 'react'
+import { ComponentProps, useEffect, useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 
-import { cn } from '@/lib/utils.ts'
+import { cn, useObservable } from '@/lib/utils.ts'
+import { BehaviorSubject } from 'rxjs'
 
 const Dialog = DialogPrimitive.Root
 
@@ -117,4 +119,43 @@ export {
     DialogFooter,
     DialogTitle,
     DialogDescription,
+}
+
+export class Modal<TComponent extends React.FC> {
+    private component: TComponent
+    private props$: BehaviorSubject<ComponentProps<TComponent> | undefined>
+
+    constructor({ component }: { component: TComponent }) {
+        this.component = component
+        this.props$ = new BehaviorSubject<
+            React.ComponentProps<TComponent> | undefined
+        >(undefined)
+    }
+
+    public Container: React.FC = () => {
+        const [open, setOpen] = useState(false)
+        const props = useObservable(this.props$)
+
+        useEffect(() => {
+            if (!props) {
+                return
+            }
+            setOpen(true)
+        }, [props])
+
+        if (!props) return <></>
+        return (
+            <Dialog open={open} onOpenChange={setOpen}>
+                {React.createElement(this.component, props)}
+            </Dialog>
+        )
+    }
+
+    public create({ props }: { props: ComponentProps<TComponent> }) {
+        this.props$.next(props)
+    }
+
+    public close() {
+        this.props$.next(undefined)
+    }
 }
