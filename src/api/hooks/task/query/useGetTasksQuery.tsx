@@ -4,16 +4,16 @@ import { FakeTasksApi, Task } from '@/api/fakeTasksApi.ts'
 import { QueryKeys } from '@/api/hooks/QueryKeys.tsx'
 
 type TaskQueryOptions = {
-    select?: (data: Task[]) => Task[]
+  select?: (data: Task[]) => Task[]
 }
 
 export const useGetTasksQuery = ({ select }: TaskQueryOptions) => {
-    return useQuery<Task[], FakeApiResponse>({
-        queryKey: QueryKeys.task.getAll(),
-        queryFn: () => {
-            return FakeTasksApi.getAll()
-        },
-        select,
-        staleTime: 1000,
-    })
+  return useQuery<Task[], FakeApiResponse>({
+    queryKey: QueryKeys.task.getAll(),
+    queryFn: () => {
+      return FakeTasksApi.getAll()
+    },
+    select,
+    staleTime: 1000,
+  })
 }

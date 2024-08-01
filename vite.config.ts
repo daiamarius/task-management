@@ -7,26 +7,26 @@ import viteTsconfigPaths from 'vite-tsconfig-paths'
 import { compression } from 'vite-plugin-compression2'
 
 export default defineConfig({
-    plugins: [
-        react(),
-        eslint(),
-        viteTsconfigPaths(),
-        checker({
-            typescript: true,
-        }),
-        compression(),
-    ],
-    server: {
-        port: 4000,
-        open: 'http://localhost:4000',
+  plugins: [
+    react(),
+    eslint(),
+    viteTsconfigPaths(),
+    checker({
+      typescript: true,
+    }),
+    compression(),
+  ],
+  server: {
+    port: 4000,
+    open: 'http://localhost:4000',
+  },
+  preview: {
+    port: 4001,
+    open: 'http://localhost:4001',
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-    preview: {
-        port: 4001,
-        open: 'http://localhost:4001',
-    },
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src'),
-        },
-    },
+  },
 })

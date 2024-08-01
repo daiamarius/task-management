@@ -6,25 +6,25 @@ import { useEffect } from 'react'
 import { hideSplashScreen } from '@/lib/utils.ts'
 
 const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            retry: 0,
-            refetchOnWindowFocus: false,
-        },
-        mutations: {
-            retry: 0,
-        },
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnWindowFocus: false,
     },
+    mutations: {
+      retry: 0,
+    },
+  },
 })
 
 export const App = () => {
-    useEffect(() => {
-        hideSplashScreen()
-    }, [])
-    return (
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-    )
+  useEffect(() => {
+    hideSplashScreen()
+  }, [])
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }

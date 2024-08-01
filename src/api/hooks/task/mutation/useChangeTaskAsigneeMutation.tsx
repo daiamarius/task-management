@@ -7,30 +7,30 @@ import { useContext } from 'react'
 import { TaskLoadingContext } from '@/routes/board/task/components/TaskLoadingContext.tsx'
 
 const useChangeTaskAsigneeMutation = (task: Task) => {
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient()
 
-    const { setLoading } = useContext(TaskLoadingContext)
+  const { setLoading } = useContext(TaskLoadingContext)
 
-    return useMutation<FakeApiResponse, FakeApiResponse, Id>({
-        mutationFn: (id) => {
-            setLoading(task.id)
-            return FakeTasksApi.update(task.id, {
-                ...task,
-                asignee: id,
-                updatedAt: new Date().toISOString(),
-            })
-        },
-        onSuccess: () => {
-            toast({
-                title: 'Task reassigned successfully.',
-                description: 'The task has been reassigned successfully.',
-                duration: 1500,
-            })
-            queryClient.invalidateQueries({
-                queryKey: QueryKeys.task.getById(task.id),
-            })
-        },
-    })
+  return useMutation<FakeApiResponse, FakeApiResponse, Id>({
+    mutationFn: (id) => {
+      setLoading(task.id)
+      return FakeTasksApi.update(task.id, {
+        ...task,
+        asignee: id,
+        updatedAt: new Date().toISOString(),
+      })
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Task reassigned successfully.',
+        description: 'The task has been reassigned successfully.',
+        duration: 1500,
+      })
+      queryClient.invalidateQueries({
+        queryKey: QueryKeys.task.getById(task.id),
+      })
+    },
+  })
 }
 
 export { useChangeTaskAsigneeMutation }

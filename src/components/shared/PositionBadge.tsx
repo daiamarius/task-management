@@ -4,11 +4,9 @@ import { capitalizeFirstLetter } from '@/lib/utils.ts'
 import { Position } from '@/api/fakeTasksApi.ts'
 
 type Props = {
-    position: Position
+  position: Position
 }
 
 export const PositionBadge: React.FC<Props> = ({ position }) => {
-    return (
-        <Badge variant={'secondary'}>{capitalizeFirstLetter(position)}</Badge>
-    )
+  return <Badge variant={'secondary'}>{capitalizeFirstLetter(position)}</Badge>
 }

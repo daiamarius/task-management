@@ -3,121 +3,119 @@ import { FakeApi, Id } from '@/api/lib/fakeApi.ts'
 
 export type Position = 'CLIENT' | 'DEVELOPER' | 'TESTER' | 'PRODUCT OWNER'
 export const Positions: readonly Position[] = [
-    'CLIENT',
-    'DEVELOPER',
-    'TESTER',
-    'PRODUCT OWNER',
+  'CLIENT',
+  'DEVELOPER',
+  'TESTER',
+  'PRODUCT OWNER',
 ] as const
 
 export type User = {
-    id: Id
-    fullName: string
-    position: Position
-    avatarUrl: string
+  id: Id
+  fullName: string
+  position: Position
+  avatarUrl: string
 }
 
 const generateNewUser = (): User => {
-    return {
-        id: faker.string.uuid(),
-        fullName: faker.person.fullName(),
-        position: faker.helpers.arrayElement(Positions),
-        avatarUrl: faker.image.avatar(),
-    }
+  return {
+    id: faker.string.uuid(),
+    fullName: faker.person.fullName(),
+    position: faker.helpers.arrayElement(Positions),
+    avatarUrl: faker.image.avatar(),
+  }
 }
 
 export const FakeUserApi = new FakeApi<User>({
-    generatorFunction: generateNewUser,
-    dataSize: 10,
-    localStorageKey: 'users',
+  generatorFunction: generateNewUser,
+  dataSize: 10,
+  localStorageKey: 'users',
 })
 
 export type Status = 'TODO' | 'IN PROGRESS' | 'TESTING' | 'DONE'
 export const Statuses: readonly Status[] = [
-    'TODO',
-    'IN PROGRESS',
-    'TESTING',
-    'DONE',
+  'TODO',
+  'IN PROGRESS',
+  'TESTING',
+  'DONE',
 ] as const
 
 export const TaskNameStart = [
-    'Feature - ',
-    'View - ',
-    'Refactoring - ',
-    'Improvement - ',
+  'Feature - ',
+  'View - ',
+  'Refactoring - ',
+  'Improvement - ',
 ] as const
 
 export type Task = {
-    id: Id
-    index: number
-    title: string
-    description: string
-    creator: Id
-    asignee?: Id
-    status: Status
-    createdAt: string
-    updatedAt: string
+  id: Id
+  index: number
+  title: string
+  description: string
+  creator: Id
+  asignee?: Id
+  status: Status
+  createdAt: string
+  updatedAt: string
 }
 
 const generate = (index?: number): Task => {
-    const status = faker.helpers.arrayElement(Statuses)
+  const status = faker.helpers.arrayElement(Statuses)
 
-    const computeAsignee = (status: Status): Id | undefined => {
-        switch (status) {
-            case 'TESTING':
-                return faker.helpers.arrayElement(
-                    FakeUserApi.getInitialData()
-                        .filter((x) => ['TESTER'].includes(x.position))
-                        .map((x) => x.id)
-                )
-            case 'DONE':
-                return faker.helpers.arrayElement(
-                    FakeUserApi.getInitialData()
-                        .filter((x) =>
-                            ['CLIENT', 'PRODUCT OWNER'].includes(x.position)
-                        )
-                        .map((x) => x.id)
-                )
-            case 'IN PROGRESS':
-                return faker.helpers.arrayElement(
-                    FakeUserApi.getInitialData()
-                        .filter((x) => ['DEVELOPER'].includes(x.position))
-                        .map((x) => x.id)
-                )
-            case 'TODO':
-                if (Math.random() < 0.3) {
-                    return faker.helpers.arrayElement(
-                        FakeUserApi.getInitialData()
-                            .filter((x) => ['DEVELOPER'].includes(x.position))
-                            .map((x) => x.id)
-                    )
-                }
-                return undefined
-            default:
-                return undefined
+  const computeAsignee = (status: Status): Id | undefined => {
+    switch (status) {
+      case 'TESTING':
+        return faker.helpers.arrayElement(
+          FakeUserApi.getInitialData()
+            .filter((x) => ['TESTER'].includes(x.position))
+            .map((x) => x.id)
+        )
+      case 'DONE':
+        return faker.helpers.arrayElement(
+          FakeUserApi.getInitialData()
+            .filter((x) => ['CLIENT', 'PRODUCT OWNER'].includes(x.position))
+            .map((x) => x.id)
+        )
+      case 'IN PROGRESS':
+        return faker.helpers.arrayElement(
+          FakeUserApi.getInitialData()
+            .filter((x) => ['DEVELOPER'].includes(x.position))
+            .map((x) => x.id)
+        )
+      case 'TODO':
+        if (Math.random() < 0.3) {
+          return faker.helpers.arrayElement(
+            FakeUserApi.getInitialData()
+              .filter((x) => ['DEVELOPER'].includes(x.position))
+              .map((x) => x.id)
+          )
         }
+        return undefined
+      default:
+        return undefined
     }
+  }
 
-    const createdAt = faker.date.past({ years: 0.5 }).toISOString()
+  const createdAt = faker.date.past({ years: 0.5 }).toISOString()
 
-    return {
-        id: faker.string.uuid(),
-        index: index ?? 0,
-        title: `${faker.helpers.arrayElement(TaskNameStart)} ${faker.lorem.words({ min: 3, max: 6 })}`,
-        description: faker.lorem.paragraph({ min: 1, max: 4 }),
-        createdAt,
-        updatedAt: createdAt,
-        creator: faker.helpers.arrayElement(
-            FakeUserApi.getData()
-                .filter((x) => ['PRODUCT OWNER', 'CLIENT'].includes(x.position))
-                .map((x) => x.id)
-        ),
-        status,
-        asignee: computeAsignee(status),
-    }
+  return {
+    id: faker.string.uuid(),
+    index: index ?? 0,
+    title: `${faker.helpers.arrayElement(TaskNameStart)} ${faker.lorem.words({ min: 3, max: 6 })}`,
+    description: faker.lorem.paragraph({ min: 1, max: 4 }),
+    createdAt,
+    updatedAt: createdAt,
+    creator: faker.helpers.arrayElement(
+      FakeUserApi.getData()
+        .filter((x) => ['PRODUCT OWNER', 'CLIENT'].includes(x.position))
+        .map((x) => x.id)
+    ),
+    status,
+    asignee: computeAsignee(status),
+  }
 }
 
 export const FakeTasksApi = new FakeApi<Task>({
-    generatorFunction: generate,
-    dataSize: 50,
-    localStorageKey: 'tasks',
+  generatorFunction: generate,
+  dataSize: 50,
+  localStorageKey: 'tasks',
 })
