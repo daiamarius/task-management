@@ -1,9 +1,9 @@
 # 🥾 Task Management Application 🏕️
 
 ## Table of Contents
-- [Requirements](#Requirements)
-- [Running the application](#Running the application)
-- [Tools and libraries](#Tools and libraries)
+- [Requirements](#requirements)
+- [Running the application](#running-the-application)
+- [Tools and libraries](#tools-and-libraries)
 
 
 ## Requirements
