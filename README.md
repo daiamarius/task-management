@@ -1,14 +1,15 @@
 # 🥾 Task Management Application 🏕️
 
 ## Table of Contents
-- [Requirements](##Requirements)
-- [Running the application](##Running the application)
-- [Tools and libraries](##Tools and libraries)
+- [Requirements](#Requirements)
+- [Running the application](#Running the application)
+- [Tools and libraries](#Tools and libraries)
 
 
 ## Requirements
-1. Git -  https://git-scm.com/downloads
-2. Node & Npm -  https://nodejs.org/en
+1. [Git](https://git-scm.com/downloads) 
+2. [Node & Npm](https://nodejs.org/en)
+3. [Visual studio code(or any other IDE)](https://code.visualstudio.com/)
 
 ## Running the application
 
